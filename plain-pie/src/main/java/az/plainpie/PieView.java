@@ -30,6 +30,7 @@ public class PieView extends View {
     private RectF mRect;
     private RectF mRectCent;
     private float mPercentage = 0;
+    private boolean isSquare = false;
 
     public PieView(Context context) {
         super(context);
@@ -221,5 +222,23 @@ public class PieView extends View {
      */
     public void setTextColor(@ColorInt int color) {
         mPercentageTextView.setTextColor(color);
+    }
+
+    /**
+     * Use the width dimension to set the height dimension if true, otherwise measure normally
+     * @param isSquare
+     */
+    public void setSquareView(boolean isSquare) {
+        this.isSquare = isSquare;
+        invalidate();
+    }
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        if (!isSquare)
+            return;
+        int measuredWidth = this.getMeasuredWidth();
+        this.setMeasuredDimension(measuredWidth, measuredWidth);
     }
 }
